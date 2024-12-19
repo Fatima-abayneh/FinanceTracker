@@ -89,7 +89,7 @@ namespace FinanceTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name, InicialAmount, startDate,endDate,CurrentAmount")] Budget budget)
+        public async Task<IActionResult> Edit(int id, [Bind("id,name, InicialAmount, CurrentAmount, startDate,endDate")] Budget budget)
         {
             if (id != budget.id)
             {
@@ -100,15 +100,7 @@ namespace FinanceTracker.Controllers
             {
                 try
                 {
-                    var existingBudget = await _context.Budgets.FindAsync(id);
-                    if (existingBudget == null)
-                    {
-                        return NotFound();
-                    }
-
-                    //// Ensure that InicialAmount is not edited, and reset it to the original value
-                    budget.InicialAmount = existingBudget.InicialAmount;
-
+                    
                     //budget.CurrentAmount = budget.InicialAmount;
                     _context.Update(budget);
                     await _context.SaveChangesAsync();
