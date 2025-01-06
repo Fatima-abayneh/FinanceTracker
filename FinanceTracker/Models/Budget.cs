@@ -1,12 +1,19 @@
-﻿namespace FinanceTracker.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FinanceTracker.Models
 {
     public class Budget
     {
-        public int id { get; set; }
-        public string? name { get; set; }
-        public double? InicialAmount { get; set; } 
-        public double? CurrentAmount { get; set; } 
-        public DateTime? startDate { get; set; }
-        public DateTime? endDate { get; set; }
+        public int Id { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        [Required, DataType(DataType.Currency)]
+        public decimal Amount { get; set; }
+        [Required]
+        public DateTime Month { get; set; }
+
+        
     }
 }

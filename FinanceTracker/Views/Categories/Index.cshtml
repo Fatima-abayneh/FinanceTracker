@@ -15,10 +15,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Description)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -26,9 +32,15 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
+            </td>            
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

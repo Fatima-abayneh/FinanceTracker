@@ -36,7 +36,7 @@ namespace FinanceTracker.Controllers
             }
 
             var budget = await _context.Budgets
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (budget == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace FinanceTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                budget.CurrentAmount = budget.InicialAmount;
+                //budget.CurrentAmount = budget.InicialAmount;
                 _context.Add(budget);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,7 +91,7 @@ namespace FinanceTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,name, InicialAmount, CurrentAmount, startDate,endDate")] Budget budget)
         {
-            if (id != budget.id)
+            if (id != budget.Id)
             {
                 return NotFound();
             }
@@ -107,7 +107,7 @@ namespace FinanceTracker.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BudgetExists(budget.id))
+                    if (!BudgetExists(budget.Id))
                     {
                         return NotFound();
                     }
@@ -130,7 +130,7 @@ namespace FinanceTracker.Controllers
             }
 
             var budget = await _context.Budgets
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (budget == null)
             {
                 return NotFound();
@@ -160,7 +160,7 @@ namespace FinanceTracker.Controllers
 
         private bool BudgetExists(int id)
         {
-          return (_context.Budgets?.Any(e => e.id == id)).GetValueOrDefault();
+          return (_context.Budgets?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

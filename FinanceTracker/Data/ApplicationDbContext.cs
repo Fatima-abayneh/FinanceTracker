@@ -13,5 +13,13 @@ namespace FinanceTracker.Data
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Budget> Budgets { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        ////    modelBuilder.Entity<Category>()
+        ////       .HasMany(c => c.Transaction)
+        ////       .WithOne(t => t.Category)
+        ////       .HasForeignKey(t => t.CategoryId);
+        //}
     }
 }

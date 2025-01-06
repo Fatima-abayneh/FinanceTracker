@@ -48,11 +48,12 @@ namespace FinanceTracker.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
-            var initialAmounts = _context.Budgets
-                                 .Select(b => b.InicialAmount) // Select only the InicialAmount property
-        .ToList();
-            var totalCurrentAmount = _context.Budgets.Sum(b => (decimal?)b.CurrentAmount) ?? 0;
-            TempData["TotalCurrentAmount"] = totalCurrentAmount;
+        //    var initialAmounts = _context.Budgets
+        //                         .Select(b => b.InicialAmount) // Select only the InicialAmount property
+        //.ToList();
+            //var totalCurrentAmount = _context.Budgets.Sum(b => (decimal?)b.CurrentAmount) ?? 0;
+            //TempData["TotalCurrentAmount"] = totalCurrentAmount;
+            //TempData.Keep("TotalCurrentAmount");
             return View();
         }
 
@@ -61,19 +62,14 @@ namespace FinanceTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description, CatBudget")] Category category)
+        public async Task<IActionResult> Create(Category category)
         {
-            var totalCurrentAmount = _context.Budgets.Sum(b => b.CurrentAmount);
+            //var totalCurrentAmount = _context.Budgets.Sum(b => b.CurrentAmount);
             if (ModelState.IsValid)
-            {
-                if (category.CatBudget > totalCurrentAmount)
-                {
-                    ModelState.AddModelError("CatBudget", $"The budget cannot exceed the total current amount ({totalCurrentAmount}).");
-                }
-                
-                    _context.Add(category);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+            {                
+                _context.Add(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));               
                 
             }
             return View(category);
@@ -87,7 +83,10 @@ namespace FinanceTracker.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
+            //var category = await _context.Categories.FindAsync(id);
+            var category = _context.Categories
+                           .Include(c => c.Transactions)
+                           .FirstOrDefault(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -100,7 +99,7 @@ namespace FinanceTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, Category category)
         {
             if (id != category.Id)
             {
@@ -166,6 +165,7 @@ namespace FinanceTracker.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        
 
         private bool CategoryExists(int id)
         {
