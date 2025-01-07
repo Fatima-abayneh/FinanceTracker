@@ -17,8 +17,8 @@ namespace FinanceTracker.Models
         public decimal Amount { get; set; }
         public TransactionType Type { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
     }
 }
