@@ -11,6 +11,7 @@ namespace FinanceTracker.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public TransactionType Type { get; set; }
         public ICollection<Transaction>? Transactions { get; set; }
+        public ICollection<Budget>? Budgets { get; set; }
 
     }
 }

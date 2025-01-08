@@ -7,8 +7,8 @@ namespace FinanceTracker.Models
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
+
         [Required, DataType(DataType.Currency)]
         public decimal Amount { get; set; }
         [Required]

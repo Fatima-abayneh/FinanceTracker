@@ -12,46 +12,33 @@
 <table class="table">
     <thead>
         <tr>
-            @*
+            
             <th>
-                @Html.DisplayNameFor(model => model.name)
+                @Html.DisplayNameFor(model => model.Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InicialAmount)
+                @Html.DisplayNameFor(model => model.Amount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.startDate)
+                @Html.DisplayNameFor(model => model.Month)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.endDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentAmount)
-            </th>
-            *@
+            
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            @*
+            
             <td>
-                @Html.DisplayFor(modelItem => item.name)
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.InicialAmount)
+                    @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.startDate)
+                @Html.DisplayFor(modelItem => item.Month)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.endDate)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CurrentAmount)
-                </td>
-
-                *@
+                           
             <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

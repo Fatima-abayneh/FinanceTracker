@@ -10,91 +10,90 @@ using FinanceTracker.Models;
 
 namespace FinanceTracker.Controllers
 {
-    public class BudgetsController : Controller
+    public class RecurringTransactionsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public BudgetsController(ApplicationDbContext context)
+        public RecurringTransactionsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Budgets
+        // GET: RecurringTransactions
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Budgets.Include(t => t.Category);
+            var applicationDbContext = _context.RecurringTransaction.Include(r => r.Category);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Budgets/Details/5
+        // GET: RecurringTransactions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Budgets == null)
+            if (id == null || _context.RecurringTransaction == null)
             {
                 return NotFound();
             }
 
-            var budget = await _context.Budgets
-                .Include(t => t.Category)
+            var recurringTransaction = await _context.RecurringTransaction
+                .Include(r => r.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (budget == null)
+            if (recurringTransaction == null)
             {
                 return NotFound();
             }
 
-            return View(budget);
+            return View(recurringTransaction);
         }
 
-        // GET: Budgets/Create
+        // GET: RecurringTransactions/Create
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
-        // POST: Budgets/Create
+        // POST: RecurringTransactions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Budget budget)
+        public async Task<IActionResult> Create([Bind("Id,Type,Description,Amount,CategoryId,RecurrenceType,NextOccurrence")] RecurringTransaction recurringTransaction)
         {
             if (ModelState.IsValid)
             {
-                //budget.CurrentAmount = budget.InicialAmount;
-                _context.Add(budget);
+                _context.Add(recurringTransaction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", budget.CategoryId);
-            return View(budget);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", recurringTransaction.CategoryId);
+            return View(recurringTransaction);
         }
 
-        // GET: Budgets/Edit/5
+        // GET: RecurringTransactions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Budgets == null)
+            if (id == null || _context.RecurringTransaction == null)
             {
                 return NotFound();
             }
 
-            var budget = await _context.Budgets.FindAsync(id);
-            if (budget == null)
+            var recurringTransaction = await _context.RecurringTransaction.FindAsync(id);
+            if (recurringTransaction == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", budget.CategoryId);
-            return View(budget);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", recurringTransaction.CategoryId);
+            return View(recurringTransaction);
         }
 
-        // POST: Budgets/Edit/5
+        // POST: RecurringTransactions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name, InicialAmount, CurrentAmount, startDate,endDate")] Budget budget)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Description,Amount,CategoryId,RecurrenceType,NextOccurrence")] RecurringTransaction recurringTransaction)
         {
-            if (id != budget.Id)
+            if (id != recurringTransaction.Id)
             {
                 return NotFound();
             }
@@ -103,14 +102,12 @@ namespace FinanceTracker.Controllers
             {
                 try
                 {
-                    
-                    //budget.CurrentAmount = budget.InicialAmount;
-                    _context.Update(budget);
+                    _context.Update(recurringTransaction);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BudgetExists(budget.Id))
+                    if (!RecurringTransactionExists(recurringTransaction.Id))
                     {
                         return NotFound();
                     }
@@ -121,51 +118,51 @@ namespace FinanceTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", budget.CategoryId);
-            return View(budget);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", recurringTransaction.CategoryId);
+            return View(recurringTransaction);
         }
 
-        // GET: Budgets/Delete/5
+        // GET: RecurringTransactions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Budgets == null)
+            if (id == null || _context.RecurringTransaction == null)
             {
                 return NotFound();
             }
 
-            var budget = await _context.Budgets
-                .Include(t => t.Category)
+            var recurringTransaction = await _context.RecurringTransaction
+                .Include(r => r.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (budget == null)
+            if (recurringTransaction == null)
             {
                 return NotFound();
             }
 
-            return View(budget);
+            return View(recurringTransaction);
         }
 
-        // POST: Budgets/Delete/5
+        // POST: RecurringTransactions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Budgets == null)
+            if (_context.RecurringTransaction == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Budgets'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.RecurringTransaction'  is null.");
             }
-            var budget = await _context.Budgets.FindAsync(id);
-            if (budget != null)
+            var recurringTransaction = await _context.RecurringTransaction.FindAsync(id);
+            if (recurringTransaction != null)
             {
-                _context.Budgets.Remove(budget);
+                _context.RecurringTransaction.Remove(recurringTransaction);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BudgetExists(int id)
+        private bool RecurringTransactionExists(int id)
         {
-          return (_context.Budgets?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.RecurringTransaction?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
