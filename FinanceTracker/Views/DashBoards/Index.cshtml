@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">Total Income</div>
+            <div class="panel-body">
+                <h3 id="totalIncome">$0.00</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-danger">
+            <div class="panel-heading">Total Expenses</div>
+            <div class="panel-body">
+                <h3 id="totalExpense">$0.00</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">Balance</div>
+            <div class="panel-body">
+                <h3 id="balance">$0.00</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Recent Transactions</h4>
+        <table class="table table-striped" id="recentTransactionsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data populated via AJAX -->
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4>Financial Overview</h4>
+        <canvas id="financialChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Load Financial Summary
+            $.getJSON('@Url.Action("LoadFinancialSummary", "Dashboard")', function (data) {
+                $('#totalIncome').text('$' + data.TotalIncome.toFixed(2));
+                $('#totalExpense').text('$' + data.TotalExpense.toFixed(2));
+                $('#balance').text('$' + data.Balance.toFixed(2));
+            });
+
+            // Load Recent Transactions
+            $.getJSON('@Url.Action("LoadRecentTransactions", "Dashboard")', function (data) {
+                var tbody = '';
+                $.each(data, function (i, transaction) {
+                    tbody += '<tr>' +
+                        '<td>' + new Date(transaction.Date).toLocaleDateString() + '</td>' +
+                        '<td>' + transaction.Description + '</td>' +
+                        '<td>' + (transaction.Type === 'Income' ? '+' : '-') + '$' + transaction.Amount.toFixed(2) + '</td>' +
+                        '<td>' + transaction.Type + '</td>' +
+                        '<td>' + transaction.Category + '</td>' +
+                        '</tr>';
+                });
+                $('#recentTransactionsTable tbody').html(tbody);
+            });
+
+            // Load Charts Data
+            $.getJSON('@Url.Action("LoadCharts", "Dashboard")', function (data) {
+                var ctx = document.getElementById('financialChart').getContext('2d');
+                var expenseLabels = data.Expenses.map(e => e.Category);
+                var expenseData = data.Expenses.map(e => e.Amount);
+                var incomeLabels = data.Incomes.map(i => i.Category);
+                var incomeData = data.Incomes.map(i => i.Amount);
+
+                var chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: expenseLabels.concat(incomeLabels),
+                        datasets: [{
+                            label: 'Expenses and Incomes',
+                            data: expenseData.concat(incomeData),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: 'Expenses and Incomes by Category'
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
