@@ -4,7 +4,65 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Striped Table</h4>
+                        <p class="card-description">
+                            <a asp-action="Create">Create New</a>
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th> @Html.DisplayNameFor(model => model.Description) </th>
+                                        <th> @Html.DisplayNameFor(model => model.Amount) </th>
+                                        <th> @Html.DisplayNameFor(model => model.Type) </th>
+                                        <th> @Html.DisplayNameFor(model => model.Date) </th>
+                                        <th> @Html.DisplayNameFor(model => model.Category.Name) </th>
+                                        
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="py-1">
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => item.Amount) </td>
+
+                                            <td> @Html.DisplayFor(modelItem => item.Type) </td>
+
+                                            <td> @Html.DisplayFor(modelItem => item.Date) </td>
+                                            <td> @Html.DisplayFor(modelItem => item.Category) </td>
+                                            
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm">
+                                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -56,4 +114,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table> *@

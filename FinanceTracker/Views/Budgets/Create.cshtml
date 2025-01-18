@@ -2,9 +2,47 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 }
 
-<h1>Create</h1>
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Budget</h4>
+                        <p class="card-description"> Create </p>
+                        <form class="forms-sample" asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Category"></label>
+                                <select asp-for="CategoryId" class="form-select form-select-sm" id="exampleFormControlSelect3" asp-items="ViewBag.CategoryId">
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">  
+                                <label asp-for="Amount"></label>
+                                <input asp-for="Amount" class="form-control">
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Month"></label>
+                                <input asp-for="Month" class="form-control">
+                                <span asp-validation-for="Month" class="text-danger"></span>
+                            </div>
+                            
+                            <input type="submit" class="btn btn-primary me-2">
+                            <button class="btn btn-light"><a asp-action="Index">Back to List</a></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* <h1>Create</h1>
 
 <h4>Budget</h4>
 <hr />
@@ -21,7 +59,7 @@
              <div class="form-group">
              <label asp-for="Amount" class="control-label"></label>
             <input asp-for="Amount" class="form-control" />
-            <span asp-validation-for="Amount" class="text-danger"></span>
+            c
              </div>
             
              <div class="form-group">
@@ -43,3 +81,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+ *@
