@@ -52,11 +52,9 @@
                 </div>
                 <div>
                     <a class="navbar-brand brand-logo" href="index.html">
-                        <img src="~/assets/images/logo.svg" alt="logo" />
+                        FinanceApp
                     </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
-                        <img src="~/assets/images/logo-mini.svg" alt="logo" />
-                    </a>
+                    
                 </div>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
@@ -150,33 +148,34 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" asp-action="Index">
                             <i class="mdi mdi-grid-large menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        
+                        <a class="nav-link" asp-controller="Categories" asp-action="Index">
                             <i class="menu-icon mdi mdi-floor-plan"></i>
-                            <span class="menu-title">UI Elements</span>
+                            <span class="menu-title">Categories</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+                        <a class="nav-link" asp-controller="Budgets" asp-action="Index">
                             <i class="menu-icon mdi mdi-card-text-outline"></i>
-                            <span class="menu-title">Form elements</span>
+                            <span class="menu-title">Budgets</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+                        <a class="nav-link" asp-controller="Transactions" asp-action="Index">
                             <i class="menu-icon mdi mdi-chart-line"></i>
-                            <span class="menu-title">Charts</span>
+                            <span class="menu-title">Transactions</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+                        <a class="nav-link" asp-controller="RecurringTransactions" asp-action="Index">
                             <i class="menu-icon mdi mdi-table"></i>
-                            <span class="menu-title">Tables</span>
+                            <span class="menu-title">RecurringTransactions</span>
                         </a>
                     </li>
                 </ul>

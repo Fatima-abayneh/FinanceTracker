@@ -2,9 +2,58 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Striped Table</h4>
+                        <p class="card-description">
+                            <a asp-action="Create">Create New</a>
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th> @Html.DisplayNameFor(model => model.Category) </th>
+                                        <th> @Html.DisplayNameFor(model => model.Amount) </th>
+                                        <th> @Html.DisplayNameFor(model => model.Month) </th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="py-1">
+                                                @Html.DisplayFor(modelItem => item.Category.Name)
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => item.Amount) </td>
+
+                                            <td> @Html.DisplayFor(modelItem => item.Month) </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm">
+                                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> </button>
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> </button>
+                                                <button type="button" class="btn btn-danger btn-sm"><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -48,3 +97,4 @@
 }
     </tbody>
 </table>
+*@
