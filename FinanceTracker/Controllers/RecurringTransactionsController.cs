@@ -57,10 +57,17 @@ namespace FinanceTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Description,Amount,CategoryId,RecurrenceType,NextOccurrence")] RecurringTransaction recurringTransaction)
+        public async Task<IActionResult> Create( RecurringTransaction recurringTransaction)
         {
             if (ModelState.IsValid)
             {
+                if (recurringTransaction.NextOccurrence < DateTime.Now)
+                {
+                    ModelState.AddModelError("NextOccurrence", "The nextoccurrence month must be in the future.");
+                    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", recurringTransaction.CategoryId);
+
+                    return View(recurringTransaction);
+                }
                 _context.Add(recurringTransaction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -102,6 +109,13 @@ namespace FinanceTracker.Controllers
             {
                 try
                 {
+                    if (recurringTransaction.NextOccurrence < DateTime.Now)
+                    {
+                        ModelState.AddModelError("NextOccurrence", "The nextoccurrence month must be in the future.");
+                        ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", recurringTransaction.CategoryId);
+
+                        return View(recurringTransaction);
+                    }
                     _context.Update(recurringTransaction);
                     await _context.SaveChangesAsync();
                 }

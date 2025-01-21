@@ -71,10 +71,19 @@ namespace FinanceTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (budget.Month < DateTime.Now)
+                {
+                    ModelState.AddModelError("Month", "The budget month must be in the future.");
+                    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", budget.CategoryId);
+
+                    return View(budget);
+                }
                 //budget.CurrentAmount = budget.InicialAmount;
                 _context.Add(budget);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));               
+
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", budget.CategoryId);
             return View(budget);
@@ -113,7 +122,13 @@ namespace FinanceTracker.Controllers
             {
                 try
                 {
-                    
+                    if (budget.Month < DateTime.Now)
+                    {
+                        ModelState.AddModelError("Month", "The budget month must be in the future.");
+                        ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", budget.CategoryId);
+
+                        return View(budget);
+                    }
                     //budget.CurrentAmount = budget.InicialAmount;
                     _context.Update(budget);
                     await _context.SaveChangesAsync();
