@@ -13,7 +13,9 @@
                     <div class="card-body">
                         <h4 class="card-title">Budgets</h4>
                         <p class="card-description">
-                            <a asp-action="Create">Create New</a>
+                            <a asp-action="Create" style="color: blue;">
+                                <div class="col-sm-6 col-md-4 col-lg-3"><i class="fa fa-pencil"></i> Add</div>
+                            </a>
                         </p>
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -36,11 +38,11 @@
 
                                             <td> @Html.DisplayFor(modelItem => item.Month) </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-sm">
+                                                <button type="button" class="btn btn-warning">
                                                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> </button>
-                                                <button type="button" class="btn btn-success btn-sm">
+                                                <button type="button" class="btn btn-primary">
                                                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> </button>
-                                                <button type="button" class="btn btn-danger btn-sm"><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+                                                <button type="button" class="btn btn-danger"><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
                                             </td>
                                         </tr>
                                     }

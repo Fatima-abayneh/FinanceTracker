@@ -20,7 +20,7 @@ namespace FinanceTracker.Controllers
         }
 
         // GET: RecurringTransactions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             var applicationDbContext = _context.RecurringTransaction.Include(r => r.Category);
             return View(await applicationDbContext.ToListAsync());

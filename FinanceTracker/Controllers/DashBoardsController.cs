@@ -12,7 +12,7 @@ namespace FinanceTracker.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {            
             return View();
         }

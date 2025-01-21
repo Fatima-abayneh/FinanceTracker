@@ -20,8 +20,18 @@ namespace FinanceTracker.Controllers
         }
 
         // GET: Budgets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            //var budgets = from m in _context.Budgets
+            //             select m;
+
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    budgets = budgets.Where(s => s.Category.Name!.Contains(searchString));
+            //}
+
+            //return View(await budgets.ToListAsync());
+
             var applicationDbContext = _context.Budgets.Include(t => t.Category);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -92,7 +102,7 @@ namespace FinanceTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name, InicialAmount, CurrentAmount, startDate,endDate")] Budget budget)
+        public async Task<IActionResult> Edit(int id, Budget budget)
         {
             if (id != budget.Id)
             {

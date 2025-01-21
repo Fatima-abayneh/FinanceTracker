@@ -20,7 +20,7 @@ namespace FinanceTracker.Controllers
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
               return _context.Categories != null ? 
                           View(await _context.Categories.ToListAsync()) :
